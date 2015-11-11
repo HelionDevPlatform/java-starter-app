@@ -1,0 +1,11 @@
+---
+applications:
+- name: helion-mysql-java-jersey
+  mem: 512M
+  path: build/mysql-java-jersey-1.0
+  services:
+    ${name}-db:
+      type: mysql
+  helion:
+    hooks:
+        post-staging: python create_db.py
