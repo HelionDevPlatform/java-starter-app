@@ -12,7 +12,6 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.log4j.Logger;
 
 
-import org.json.JSONObject;
 
 @Path("/") // in web.xml this maps to /rest/.*
 public class VCapService {
