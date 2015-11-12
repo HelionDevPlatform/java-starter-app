@@ -33,6 +33,7 @@
     	}
 	}
     </style>
+    
 
 </head>
 <body>
@@ -75,10 +76,10 @@
 	                        <div class="span6">
 	                            <div class="carousel-caption">
 	                                <h1>Congratulations!</h1>
-	                                <p class="lead">You've deployed your first Java Spring Boot app. As you are building the app, you can keep the header around as a handy reminder on how to add app services.  </p>
+	                                <p class="lead">You've deployed your first Java app. <b>TODO: Java-ize this</b>. As you are building the app, you can keep the header around as a handy reminder on how to add app services.  </p>
 	                            </div>
 	                        </div>
-	                        <div class="span6"><br/><br/><br/><br/><img src="/img/javalogo.png"></div>
+	                        <div class="span6 logo" style="margin-top:60px"><img src="/img/python.jpeg"></div>
 	                    </div>
 	                </div>
 	            </div>
@@ -94,22 +95,31 @@
 	        </div>
 	
 	        <div class="span4">
-	        	<img src="/img/java-spring-boot.png" style="width:200px;height:128px"; display:block; margin-left: auto; margin-right: auto;">
+	        	<img src="/img/Scaffolding.png" style="display:block; margin-left: auto; margin-right: auto;">
 	        	
 	            <h2>Web Framework</h2>
 	            <p>
-	              This solution is built using the Spring Boot framework.
+	              This solution is built using the Python Bottle framework.  This micro web framework gives you routing, templates, and a built-in web server.
 	            </p>
-	            <a href="http://spring.io/">Read More →</a>
+	            <a href="http://bottlepy.org">Read More →</a>
 	
 	        </div>
 	
 	
 	        <div class="span4">
-	            <img src="/img/icon4.png" style="width:128px;height:128px">
+	            <img src="/img/manifest.png">
 	            <h2>Manifest</h2>
 	            <p>
-	                The manifest.yml file describes how to deploy the Web and Worker roles, including staging hooks.
+	                The manifest.yml file describes how to specify resources for you app including app services and environment variables.
+	            </p>
+	            <a href="#">Read More →</a>
+	        </div>
+
+	        <div class="span4">
+	            <img src="/img/procfile.png" style="height:94px;width:auto">
+	            <h2>Procfile</h2>
+	            <p>
+	                This file specifies the starting commands for your app.  In this case we are telling the web server that wsgi.py is the entry point.
 	            </p>
 	            <a href="#">Read More →</a>
 	        </div>

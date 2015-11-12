@@ -7,22 +7,22 @@ var serviceEnabled = [0,0,0,0,0,0,0,0];
 
 
 $(document).ready(function() {
-		
-	$(".nav-tabs a").click(function(){
-        $(this).tab('show');
-    });
+	$(".collapsediv").hide();
 	
 	$.get( "/rest/vcap_services", function( data ) {
-		var obj = data; //$.parseJSON(data);
-		
-		
+		if(data){
+			var obj = data;
+		}
+		else{
+			var obj = {};
+		}
 		services.forEach(function(value, index, array) {
-			if(obj[value] != null) {
+			if(obj && obj[value] != null) {
 				
 				$("#als-service-buttons").append("<button id='"+value+"' class='btn btn-success togglebtn' type='button'>"+value+"</button>");
 	            $("#"+value+"_div").find("div.off").hide();
 	            $("#"+value+"_div").find("div.on").append("<pre>"+JSON.stringify(obj[value][0],null, "\t")+"</pre>");
-		            
+
 				console.log(value + ' found');
 				serviceObjs = obj[value];
 				
@@ -43,15 +43,28 @@ $(document).ready(function() {
 			}
 		});
 
-		// check for user defined services
-		$("#found_userdefined_services").hide();
-		
-		if(obj['user-provided'] != null) {
-			$("#found_userdefined_services").append("<pre>"+JSON.stringify(obj['user-provided'],null, "\t")+"</pre>")
-			$("#found_userdefined_services").show();
-		}
-		
-		//collapsed_div behavior
+		 //Populate user-provided services
+		 console.log(obj);
+		 console.log(obj['user-provided']);
+        if(obj['user-provided'] != null) {
+            //var user_provided = obj['user_provided'];
+            //console.log(user_provided);
+            //console.log(obj['user_provided']);
+
+            obj['user-provided'].forEach( function(v,i) {
+                upName = v['name'];
+                $("#userprovided-service-buttons").append("<button id='"+upName+"' class='btn btn-success togglebtn udbtn' type='button'>"+upName+"</button>");
+                $("#userprovided_divs").append("<div class='collapsediv well on' id='"+upName+"_div'></div>");
+                $("#"+upName+"_div").hide();
+                $("#"+upName+"_div").append("<pre>"+JSON.stringify(v,null, "\t")+"</pre>");
+
+            });
+        }
+        else{
+        	$("#userprovided-services-howto_div").show();
+        }
+
+        //collapsed_div behavior for standard services
   		$('.togglebtn').bind('click', function () {
         	$(".collapsediv").hide();
         	var target_id = this.id;
@@ -59,9 +72,7 @@ $(document).ready(function() {
 
     	});
 
-	});
-    $(".collapsediv").hide();
-    
-    
-  
+		});
+
+	 
 });
