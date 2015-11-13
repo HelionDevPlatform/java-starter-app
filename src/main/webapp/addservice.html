@@ -201,13 +201,27 @@
                 			String password = credentials.getStringValue("password");
                 			String port = credentials.getNumberValue("port");
 
+							// build a mysql URI and create a valid connection
+
                 			String dbUrl = "jdbc:mysql://" +hostname + ":" + port + "/" + dbname;
 
                 			getLogger().debug("JDBC Connection String: "+dbUrl);
                 			Class.forName("com.mysql.jdbc.Driver");
                 			dbConnection = DriverManager.getConnection(dbUrl, user, password);
-                
-            
+                			
+							// use the connection to query the database
+
+            				String getContents = "select text_id, contents from text_data";
+	    					Statement stmt = dbConnection.createStatement();
+	    					ResultSet rs = stmt.executeQuery(getContents);
+	    
+	    					while(rs.next()) {
+	    						Integer id = rs.getInt("text_id");
+	    						String contents = rs.getString("contents");
+	    						// do something with the contents
+	    						...
+	    					}
+		
             			} catch (Exception e) {
         					getLogger().error(e);
 	            			throw(e);
