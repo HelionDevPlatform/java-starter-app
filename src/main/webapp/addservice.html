@@ -149,32 +149,73 @@
         <div class="collapsediv" id="mysql_div">
             <div class="well on">
                 <div class='alert alert-success' role='alert'>This service is enabled and bound to your app.  Use the connection info and code snippets below to use it in your app.</div>
+                <div> 
+                <p> in your pom.xml file, list the mysql connector dependency:</p>
+                </div>
+                <script type="syntaxhighlighter" class="brush: py">
+					<![CDATA[
+					<project>
+						...
+						<dependencies>
+							...
+							<dependency>
+        						<groupId>mysql</groupId>
+	        					<artifactId>mysql-connector-java</artifactId>
+    	    					<version>5.1.21</version>
+     						</dependency>
+						</dependencies>
+					</project>
+
+					]]>
+				</script>
+				<div>
+				<p>In your source code, you would connect to the database by leveraging the credentials stored in the VCAP_SERVICES variable:</p> 
+				</div>
                 <script type="syntaxhighlighter" class="brush: py">
                     <![CDATA[
-                    import MySQLdb
-                    try:
-                        mysqlUrl = urlparse.urlparse(os.environ['MYSQL_URL'])
-                            except KeyError:
-                                log.warn("env variable MYSQL_URL not found, reverting to DATABASE_URL")
-                                mysqlUrl = urlparse.urlparse(os.environ['DATABASE_URL'])
-                        url = mysqlUrl.hostname
-                        log.debug("url = %s"%url)
-                        password = mysqlUrl.password
-                        log.debug("password = %s"%password) 
-                        userName = mysqlUrl.username
-                        log.debug("username = %s"%userName)
-                        dbName = mysqlUrl.path[1:] # slice off the '/'
-                        log.debug("dbName = %s"%dbName) 
-                        self.log.debug("connecting database")
-                            db = MySQLdb.connect(host=self.url,user=self.userName,passwd=self.password,db=self.dbName) 
-                            cur = db.cursor()
-                            cur.execute('use %s'%self.dbName)
-                                return db
-                            except MySQLdb.Error, e:
-                                self.log.error("unable to connect to database")
-                                self.handleMySQLException(e,True)
+					import java.sql.Connection;
+					import java.sql.DriverManager;
+					
+					...
+
+                    Connection dbConnection = null;
+        
+        			String vcap_services = System.getenv("VCAP_SERVICES");
+        
+			        if (vcap_services != null && vcap_services.length() > 0) {
+            			try {
+            				// Use a JSON parser to get the info we need from  the
+                			// VCAP_SERVICES environment variable. This variable contains
+                			// credentials for all services bound to the application.
+                			
+
+                			JsonRootNode root = new JdomParser().parse(vcap_services);
+
+                			JsonNode mysqlNode = root.getNode("mysql");
+                			JsonNode credentials = mysqlNode.getNode(0).getNode("credentials");
+
+                			// Grab login info for MySQL from the credentials node
+                			String dbname = credentials.getStringValue("name");
+                			String hostname = credentials.getStringValue("hostname");
+                			String user = credentials.getStringValue("user");
+                			String password = credentials.getStringValue("password");
+                			String port = credentials.getNumberValue("port");
+
+                			String dbUrl = "jdbc:mysql://" +hostname + ":" + port + "/" + dbname;
+
+                			getLogger().debug("JDBC Connection String: "+dbUrl);
+                			Class.forName("com.mysql.jdbc.Driver");
+                			dbConnection = DriverManager.getConnection(dbUrl, user, password);
+                
+            
+            			} catch (Exception e) {
+        					getLogger().error(e);
+	            			throw(e);
+        				}
+        			} 
                     ]]>
                 </script>
+                <div><p>The credentials are exposed in VCAP_SERVICES as follows:</p></div>
             </div>
             <div class="well off">
                 <div class="alert alert-success" role="alert">This service was created during the microcloud creation process. The steps below will make it available for your app.</div>
