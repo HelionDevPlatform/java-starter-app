@@ -3,8 +3,8 @@ applications:
 - name: java
   memory: 512M
   path: build/java-starter-app-1.0.war
-  services:
-   - java-mysql-db
+  #services:
+   #- java-mysql-db
    #- java-postgres-db
    #- java-rabbitmq3
    #- java-mongo-db
