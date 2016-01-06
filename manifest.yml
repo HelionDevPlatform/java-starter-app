@@ -11,6 +11,5 @@ applications:
    #- java-filesystem
    #- java-harbor
    #- java-memcached
-  helion:
-    env:
-        ENV_VAR: java
+  env:
+    ENV_VAR: java
