@@ -4,20 +4,20 @@ applications:
   memory: 512M
   path: build/java-starter-app-1.0.war
   services:
-    ${name}-mysql-db:
+    java-mysql-db:
       type: mysql
-    #${name}-postgres-db:
+    #java-postgres-db:
       #type: postgresql
-    #${name}-rabbitmq3:
+    #java-rabbitmq3:
       #type: rabbitmq3
-    #${name}-mongo-db:
+    #java-mongo-db:
       #type: mongodb
-    #${name}-filesystem:
+    #java-filesystem:
       #type: filesystem
-    #${name}-harbor:
+    #java-harbor:
       #type: harbor
-    #${name}-memcached:
+    #java-memcached:
       #type: memcached
   helion:
     env:
-        ENV_VAR: ${name}
+        ENV_VAR: java
